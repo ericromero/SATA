@@ -22,7 +22,7 @@ return new class extends Migration
         $table->timestamps();
     });
 
-    // Mantén password_reset_tokens y sessions si ya venían en el archivo
+    
     Schema::create('password_reset_tokens', function (Blueprint $table) {
         $table->string('email')->primary();
         $table->string('token');
