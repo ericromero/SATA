@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('practice_scenario', 100)->nullable();
             
             // Llaves foráneas
-            $table->foreignId('academic_id')->references('academic_id')->on('academics');
             $table->foreignId('ordinary_periods_id')->references('ordinary_p_id')->on('ordinary_periods');
             $table->foreignId('subject_id')->references('subject_id')->on('subjects');
             
