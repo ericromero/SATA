@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             
             <!-- Tarjeta: Registro de Propuestas -->
-            <a href="#" class="bg-white dark:bg-neutral-800 overflow-hidden shadow-sm sm:rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-neutral-700 transition border border-neutral-200 dark:border-neutral-700 flex flex-col items-center text-center">
+            <a href="/propuestas/crear" class="bg-white dark:bg-neutral-800 overflow-hidden shadow-sm sm:rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-neutral-700 transition border border-neutral-200 dark:border-neutral-700 flex flex-col items-center text-center">
                 <div class="text-indigo-600 dark:text-indigo-400 mb-3">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 </div>
