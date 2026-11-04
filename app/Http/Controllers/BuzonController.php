@@ -8,7 +8,8 @@ class BuzonController extends Controller
 {
     public function index()
     {
-        return "Aquí se mostrará la vista principal del buzón";
+        // ¡Este es el cambio clave! Ahora llama al diseño HTML
+        return view('buzon.index');
     }
 
     public function createMessage()
