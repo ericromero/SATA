@@ -22,4 +22,23 @@ class TitulacionController extends Controller
     {
         return view('titulacion.editar_documentacion');
     }
+    public function menuF1()
+    {
+        return view('titulacion.menu_f1');
+    }
+    // NUEVO: Vista de Selección de Modalidad
+    public function seleccionarModalidad()
+    {
+        return view('titulacion.seleccionar_modalidad');
+    }
+
+    // NUEVO: Vista del Formulario de Registro F1
+    public function registrarF1()
+    {
+        return view('titulacion.registrar_f1');
+    }
+    public function buscadorDocentes()
+{
+    return view('titulacion.buscador_docentes');
+}
 }
