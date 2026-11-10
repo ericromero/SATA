@@ -17,6 +17,7 @@ class Academic extends Model
         'contract_id',
         'reprogramaciones_semestre',
         'cancelaciones_semestre',
+        'RFC',
     ];
 
     // Relación con el modelo User

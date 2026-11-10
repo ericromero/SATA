@@ -41,4 +41,6 @@ Route::get('/usuarios/alta-docentes', function () {
 
 Route::post('/usuarios/alta-docentes', [UserController::class, 'storeDocente']);
 
+Route::get('/usuarios/consultar-academicos', [UserController::class, 'consultarAcademicos']);
+
 require __DIR__.'/auth.php';
