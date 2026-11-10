@@ -1,69 +1,57 @@
 <x-layouts.app>
-    <div class="p-6 max-w-3xl mx-auto">
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-white">Registrar Nuevo Evento Académico</h1>
-            <p class="text-sm text-zinc-400">Complete el formulario para dar de alta un nuevo evento</p>
+    <div class="p-6">
+        <!-- Encabezado de la sección -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-white">Eventos Académicos</h1>
+                <p class="text-sm text-zinc-400">Gestión y consulta de eventos registrados en la plataforma</p>
+            </div>
+            <a href="{{ route('academic-events.create') }}" 
+               class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-lg transition shadow-sm">
+                + Crear Nuevo Evento
+            </a>
         </div>
 
-        @if ($errors->any())
-            <div class="mb-6 p-4 text-sm text-red-400 bg-red-950/50 border border-red-800 rounded-xl">
-                <ul class="list-disc pl-5 space-y-1">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        @if(session('success'))
+            <div class="mb-6 p-4 text-sm text-emerald-400 bg-emerald-950/50 border border-emerald-800 rounded-xl">
+                {{ session('success') }}
             </div>
         @endif
 
-        <form action="{{ route('academic-events.store') }}" method="POST" class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-5">
-            @csrf
+        <!-- Grid de Tarjetas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            @forelse($events as$event)
+                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between shadow-sm hover:border-zinc-700 transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full 
+                                {{ $event->modality === 'Presencial' ? 'bg-blue-950 text-blue-400 border border-blue-800' : ($event->modality === 'Virtual' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-purple-950 text-purple-400 border border-purple-800') }}">
+                                {{ $event->modality }}
+                            </span>
+                            <span class="text-xs font-mono text-zinc-500">ID: #{{ $event->id }}</span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-white mb-2 leading-snug">{{ $event->title }}</h3>
+                        <p class="text-sm text-zinc-400 mb-4 line-clamp-3">
+                            {{ $event->description ?? 'Sin descripción registrada.' }}
+                        </p>
+                    </div>
 
-            <div>
-                <label for="title" class="block text-sm font-medium text-zinc-300 mb-2">Título del Evento</label>
-                <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                       class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 text-sm">
-            </div>
-
-            <div>
-                <label for="description" class="block text-sm font-medium text-zinc-300 mb-2">Descripción</label>
-                <textarea id="description" name="description" rows="4"
-                          class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 text-sm">{{ old('description') }}</textarea>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <label for="modality" class="block text-sm font-medium text-zinc-300 mb-2">Modalidad</label>
-                    <select id="modality" name="modality" required
-                            class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 text-sm">
-                        <option value="Presencial">Presencial</option>
-                        <option value="Virtual">Virtual</option>
-                        <option value="Híbrida">Híbrida</option>
-                    </select>
+                    <div class="pt-4 border-t border-zinc-800 text-xs text-zinc-400 flex flex-col gap-1">
+                        <div><strong class="text-zinc-300">Inicio:</strong> {{ \Carbon\Carbon::parse($event->start_date)->format('d/m/Y H:i') }}</div>
+                        @if($event->end_date)
+                            <div><strong class="text-zinc-300">Fin:</strong> {{ \Carbon\Carbon::parse($event->end_date)->format('d/m/Y H:i') }}</div>
+                        @endif
+                    </div>
                 </div>
-
-                <div>
-                    <label for="start_date" class="block text-sm font-medium text-zinc-300 mb-2">Fecha y Hora de Inicio</label>
-                    <input type="datetime-local" id="start_date" name="start_date" value="{{ old('start_date') }}" required
-                           class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 text-sm">
+            @empty
+                <div class="col-span-full bg-zinc-900/60 border border-dashed border-zinc-800 rounded-xl p-12 text-center">
+                    <p class="text-zinc-400 text-base mb-2">No hay eventos registrados actualmente.</p>
+                    <a href="{{ route('academic-events.create') }}" class="text-sm text-indigo-400 hover:text-indigo-300 underline">
+                        Haga clic aquí para registrar el primer evento
+                    </a>
                 </div>
-
-                <div>
-                    <label for="end_date" class="block text-sm font-medium text-zinc-300 mb-2">Fecha y Hora de Fin</label>
-                    <input type="datetime-local" id="end_date" name="end_date" value="{{ old('end_date') }}"
-                           class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 text-sm">
-                </div>
-            </div>
-
-            <div class="flex items-center justify-end gap-3 pt-4 border-t border-zinc-800">
-                <a href="{{ route('academic-events.index') }}" 
-                   class="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-white transition">
-                    Cancelar
-                </a>
-                <button type="submit" 
-                        class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition shadow-sm">
-                    Guardar Evento
-                </button>
-            </div>
-        </form>
+            @endforelse
+        </div>
     </div>
 </x-layouts.app>
