@@ -20,7 +20,7 @@
 
         <!-- Grid de Tarjetas -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            @forelse($events as$event)
+            @forelse($events as $event)
                 <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between shadow-sm hover:border-zinc-700 transition">
                     <div>
                         <div class="flex justify-between items-start mb-3">
