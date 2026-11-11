@@ -16,20 +16,20 @@
             <!-- Grid de Tarjetas (3 columnas) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <!-- 1. Registrar Evento -->
-                <a href="{{ route('academic-events.create') }}" 
-                   class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
+                <!-- 1. Registrar Evento (Redirige a la Gestión de borradores) -->
+                <a href="{{ route('academic-events.manage') }}" 
+                class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
-                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
                     </div>
                     <h3 class="text-base font-semibold text-gray-900 mb-1">Registrar Evento</h3>
                     <p class="text-sm text-gray-500 leading-snug">Registrar un nuevo evento o actualiza un borrador</p>
                 </a>
-
+                
                 <!-- 2. Cancelar Evento -->
-                <a href="#" 
+                <a href="{{ route('academic-events.cancel') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +42,7 @@
                 </a>
 
                 <!-- 3. Reprogramar Evento -->
-                <a href="#" 
+                <a href="{{ route('academic-events.reprogram') }}" 
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@
                 </a>
 
                 <!-- 4. Lista de Inscritos -->
-                <a href="#" 
+                <a href="{{ route('academic-events.enrolled') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@
                 </a>
 
                 <!-- 5. Asignar calificaciones -->
-                <a href="#" 
+                <a href="{{ route('academic-events.grades') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@
                 </a>
 
                 <!-- 6. Descargar Constancias -->
-                <a href="#" 
+                <a href="{{ route('academic-events.certificates') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
