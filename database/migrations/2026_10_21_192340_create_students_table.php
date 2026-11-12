@@ -13,7 +13,7 @@ return new class extends Migration
 {
     Schema::create('students', function (Blueprint $table) {
         $table->unsignedBigInteger('user_id')->primary();
-        $table->string('account_number', 10)->unique();
+        $table->string('account_number', 9)->unique();
         
         // Atributos integrados del modelo general
         $table->boolean('sancion_activa')->default(false);

@@ -19,8 +19,21 @@ class UserController extends Controller
             'email' => 'required|email|unique:user,email',
             'password' => 'required|string|min:8',
             'CURP' => ['required', 'string', new ValidCurp, 'unique:user,CURP'],
-            'account_number' => ['required', 'string', 'max:10', 'regex:/^[0-9]+$/', 'unique:students,account_number'],
-        ]);
+            'account_number' => ['required', 'string', 'size:9', 'regex:/^[0-9]+$/', 'unique:students,account_number'],
+        ], [
+            'name.required' => 'Ingresa tu nombre completo.',
+            'email.required' => 'Ingresa el correo electrónico.',
+            'email.unique' => 'Este correo electrónico ya se encuentra registrado.',
+            'password.required' => 'Ingresa una contraseña.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'CURP.required' => 'La CURP es obligatoria.',
+            'CURP.unique' => 'La CURP ya está registrada en el sistema.',
+            'account_number.required' => 'El número de cuenta es obligatorio.',
+            'account_number.regex' => 'El número de cuenta es inválido, solo debe contener números.',
+            'account_number.max' => 'El número de cuenta no puede tener más de 9 dígitos.',
+            'account_number.unique' => 'Este número de cuenta ya está registrado.'
+        ]
+        );
 
         DB::transaction(function () use ($request) {
             $user = User::create([
@@ -54,7 +67,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:user,email',
             'password' => 'required|string|min:8',
             'CURP' => ['required', 'string', new ValidCurp, 'unique:user,CURP'],
-            'employe_number' => 'required|string|max:10|unique:academics,employe_number',
+            'employe_number' => 'nullable|string|size:10|unique:academics,employe_number',
             'RFC' => 'required|string|size:13|unique:academics,RFC',
             'areas' => 'required|array|min:1',
             'areas.*' => 'exists:units,id',

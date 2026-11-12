@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('academics', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->primary();
-            $table->string('employe_number', 10)->unique(); // varchar para proteger los ceros a la izquierda
+            $table->string('employe_number', 10)->nullable()->unique(); // varchar para proteger los ceros a la izquierda
             
            
             $table->unsignedBigInteger('appointment_type_id')->nullable(); 

@@ -36,8 +36,8 @@
                 </p>
 
                 <p>
-                    <label>Número de Empleado:</label><br>
-                    <input type="text" name="employe_number" maxlength="10" required>
+                    <label>Número de Empleado (Opcional):</label><br>
+                    <input type="text" name="employe_number" value="{{ old('employe_number') }}" maxlength="10">
                 </p>
             </fieldset>
 
