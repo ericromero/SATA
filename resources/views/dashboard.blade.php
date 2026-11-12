@@ -35,13 +35,22 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400">Acepta, modifica o cancela tu carga horaria asignada.</p>
             </a>
 
-            <!-- Tarjeta: Gestión de Periodos -->
-            <a href="{{ route('periods.index') }}" class="bg-white dark:bg-neutral-800 overflow-hidden shadow-sm sm:rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-neutral-700 transition border border-neutral-200 dark:border-neutral-700 flex flex-col items-center text-center opacity-75">
+            <!-- Tarjeta: Periodos Ordinarios -->
+            <a href="{{ route('periods.ordinary') }}" class="bg-white dark:bg-neutral-800 overflow-hidden shadow-sm sm:rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-neutral-700 transition border border-neutral-200 dark:border-neutral-700 flex flex-col items-center text-center opacity-75">
                 <div class="text-indigo-600 dark:text-indigo-400 mb-3">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Gestionar periodos</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Apertura y cierre de periodos en curso.</p>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Periodos Ordinarios</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Apertura y cierre de periodos para el semestre regular.</p>
+            </a>
+
+            <!-- Tarjeta: Periodos Extraordinarios -->
+            <a href="{{ route('periods.extraordinary') }}" class="bg-white dark:bg-neutral-800 overflow-hidden shadow-sm sm:rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-neutral-700 transition border border-neutral-200 dark:border-neutral-700 flex flex-col items-center text-center opacity-75">
+                <div class="text-indigo-600 dark:text-indigo-400 mb-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Periodos Extraordinarios</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Gestión de fechas para exámenes extraordinarios.</p>
             </a>
 
             <!-- Tarjeta: Gestión de Plantilla -->

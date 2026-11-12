@@ -30,7 +30,7 @@
                         <svg class="w-6 h-6 text-indigo-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <div>
                             <h4 class="text-sm font-semibold text-indigo-900 dark:text-indigo-300">Descarga la plantilla oficial</h4>
-                            <p class="text-sm text-indigo-700 dark:text-indigo-400 mt-1">Para evitar errores en la importación, asegúrate de utilizar el formato predefinido con las columnas correctas (Materia, Grupo, Día, Hora Inicio, Aula, Docente).</p>
+                            <p class="text-sm text-indigo-700 dark:text-indigo-400 mt-1">Para evitar errores en la importación, asegúrate de utilizar el formato predefinido con las columnas correctas (Materia, Grupo, Día, Hora Inicio, Aula, Docentes).</p>
                             <a href="#" class="inline-block mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-800 underline">Descargar plantilla_propuestas.xlsx</a>
                         </div>
                     </div>
@@ -58,16 +58,17 @@
                     </div>
                 </div>
 
-                <!-- OPCIÓN 2: REGISTRO MANUAL (Lo que ya tenías) -->
+                <!-- OPCIÓN 2: REGISTRO MANUAL -->
                 <div x-show="metodo === 'manual'" style="display: none;">
                     <form action="#" method="POST" class="space-y-6">
+                        <!-- Datos de la Materia -->
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Materia</label>
                                 <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                     <option>Selecciona una materia...</option>
-                                    <option>Ingeniería de Software</option>
-                                    <option>Inteligencia Artificial</option>
+                                    <option>Psicología I</option>
+                                    <option>Psicología II</option>
                                 </select>
                             </div>
                             <div class="md:col-span-2">
@@ -79,40 +80,71 @@
                             
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Hora inicio</label>
-                                <input type="time" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm">
+                                <input type="time" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Hora fin</label>
-                                <input type="time" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm">
+                                <input type="time" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Aula</label>
-                                <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm">
+                                <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                     <option>Aula A301</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Grupo</label>
-                                <input type="text" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm">
+                                <input type="text" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             </div>
                         </div>
 
                         <hr class="border-gray-200 dark:border-neutral-700 my-6">
 
+                        <!-- Asignación de Docentes (Actualizado) -->
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Asignación de Docentes</h3>
-                        <div class="bg-gray-50 dark:bg-neutral-900 p-6 rounded-lg border border-gray-100 dark:border-neutral-800">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Docente Principal</label>
-                                    <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 shadow-sm">
-                                        <option>Seleccionar...</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Horas asignadas</label>
-                                    <input type="number" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 shadow-sm">
+                        <div class="bg-gray-50 dark:bg-neutral-900 p-6 rounded-lg border border-gray-100 dark:border-neutral-800 space-y-6">
+                            
+                            <!-- Docente 1 (Titular) -->
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                    Docente Titular (Encargado de firmar) *
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seleccionar docente</label>
+                                        <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                            <option>Seleccionar...</option>
+                                            <option>Mtra. Ana Gómez</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Horas asignadas</label>
+                                        <input type="number" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ej. 4">
+                                    </div>
                                 </div>
                             </div>
+
+                            <hr class="border-gray-200 dark:border-neutral-700">
+
+                            <!-- Docente 2 (Opcional) -->
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-white mb-3 text-gray-500">Segundo Docente (Opcional)</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Seleccionar docente</label>
+                                        <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                            <option>Ninguno (Dejar en blanco)</option>
+                                            <option>Dr. Juan Pérez</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Horas asignadas</label>
+                                        <input type="number" class="mt-1 block w-full rounded-md border-gray-300 dark:border-neutral-700 dark:bg-neutral-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ej. 2">
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="flex justify-end gap-4 mt-8">

@@ -22,5 +22,8 @@ Route::middleware(['auth'])->group(function () {
     // Rutas pendientes (Las dejamos apuntando al dashboard temporalmente para evitar errores)
     Route::get('/periodos', function () { return view('dashboard'); })->name('periods.index');
     Route::get('/plantilla', function () { return view('dashboard'); })->name('academics.index');
-
+    // Rutas de extraordinarios
+    Route::get('/periodos/ordinarios', function () { return view('dashboard'); })->name('periods.ordinary');
+    Route::get('/periodos/extraordinarios', function () { return view('dashboard'); })->name('periods.extraordinary');
+    Route::get('/plantilla', function () { return view('dashboard'); })->name('academics.index');
 });
