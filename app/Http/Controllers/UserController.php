@@ -67,12 +67,35 @@ class UserController extends Controller
             'email' => 'required|email|unique:user,email',
             'password' => 'required|string|min:8',
             'CURP' => ['required', 'string', new ValidCurp, 'unique:user,CURP'],
-            'employe_number' => 'nullable|string|size:10|unique:academics,employe_number',
+            'employe_number' => 'nullable|string|max:10|unique:academics,employe_number',
             'RFC' => 'required|string|size:13|unique:academics,RFC',
             'areas' => 'required|array|min:1',
             'areas.*' => 'exists:units,id',
             'roles_area' => 'array',
-        ]);
+        ], [
+            'name.required' => 'Ingresa tu nombre completo.',
+            'email.required' => 'Ingresa el correo electrónico.',
+            'email.unique' => 'El correo electrónico ya se encuentra registrado.',
+            'password.required' => 'Ingresa una contraseña.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'CURP.required' => 'Ingresa tu CURP.',
+            'CURP.unique' => 'Esta CURP ya está registrada en el sistema.',
+            'RFC.required' => 'El RFC es obligatorio.',
+            'RFC.size' => 'El RFC debe tener exactamente 13 caracteres.',
+            'RFC.unique' => 'Este RFC ya está registrado en el sistema.',
+            'employe_number.size' => 'El número de empleado no puede tener más de 10 caracteres.',
+            'employe_number.unique' => 'Este número de empleado ya existe.',
+            'areas.required' => 'Debes seleccionar al menos un área (SUA o Escolarizado).',
+        ]
+        );
+
+        if ($request->has('areas')) {
+            foreach ($request->areas as $unitId) {
+                if (empty($request->roles_area[$unitId])) {
+                    return back()->withErrors(['roles_area' => 'Debes seleccionar un rol para cada área que hayas marcado.'])->withInput();
+                }
+            }
+        }
 
         DB::transaction(function () use ($request) {
             $user = User::create([

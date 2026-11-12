@@ -4,6 +4,18 @@
     </x-slot>
 
     <div style="padding: 20px;">
+        
+        <!-- Alerta de Errores de Validación -->
+        @if($errors->any())
+        <div style="background-color: #fee2e2; border: 1px solid #f87171; color: #991b1b; padding: 15px; margin-bottom: 20px;">
+            <ul style="margin: 0; padding-left: 20px;">
+                @foreach($errors->all() as$error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form action="/usuarios/alta-docentes" method="POST">
             @csrf
             
@@ -12,12 +24,12 @@
                 
                 <p>
                     <label>Nombre Completo:</label><br>
-                    <input type="text" name="name" required>
+                    <input type="text" name="name" value="{{ old('name') }}" required>
                 </p>
                 
                 <p>
                     <label>Correo Electrónico:</label><br>
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" value="{{ old('email') }}" required>
                 </p>
                 
                 <p>
@@ -27,12 +39,12 @@
 
                 <p>
                     <label>CURP:</label><br>
-                    <input type="text" name="CURP" maxlength="18" required style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
+                    <input type="text" name="CURP" value="{{ old('CURP') }}" maxlength="18" required style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                 </p>
                 
                 <p>
                     <label>RFC:</label><br>
-                    <input type="text" name="RFC" maxlength="13" required style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
+                    <input type="text" name="RFC" value="{{ old('RFC') }}" maxlength="13" required style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
                 </p>
 
                 <p>
@@ -54,16 +66,16 @@
                     ];
                 @endphp
 
-                @foreach($areasSua as $area)
+                @foreach($areasSua as$area)
                     <p>
-                        <input type="checkbox" name="areas[]" value="{{ $area['id'] }}">
+                        <input type="checkbox" name="areas[]" value="{{ $area['id'] }}" {{ is_array(old('areas')) && in_array($area['id'], old('areas')) ? 'checked' : '' }}>
                         <label>{{ $area['name'] }}</label>
                         
                         <select name="roles_area[{{ $area['id'] }}]">
                             <option value="">Seleccionar rol...</option>
-                            <option value="1">Docente / Profesor</option>
-                            <option value="2">Tutor Académico</option>
-                            <option value="3">Funcionario</option>
+                            <option value="1" {{ old("roles_area.{$area['id']}") == '1' ? 'selected' : '' }}>Docente / Profesor</option>
+                            <option value="2" {{ old("roles_area.{$area['id']}") == '2' ? 'selected' : '' }}>Tutor Académico</option>
+                            <option value="3" {{ old("roles_area.{$area['id']}") == '3' ? 'selected' : '' }}>Funcionario</option>
                         </select>
                     </p>
                 @endforeach
@@ -82,16 +94,16 @@
                     ];
                 @endphp
 
-                @foreach($areasEscolarizado as $area)
+                @foreach($areasEscolarizado as$area)
                     <p>
-                        <input type="checkbox" name="areas[]" value="{{ $area['id'] }}">
+                        <input type="checkbox" name="areas[]" value="{{ $area['id'] }}" {{ is_array(old('areas')) && in_array($area['id'], old('areas')) ? 'checked' : '' }}>
                         <label>{{ $area['name'] }}</label>
                         
                         <select name="roles_area[{{ $area['id'] }}]">
                             <option value="">Seleccionar rol...</option>
-                            <option value="1">Docente / Profesor</option>
-                            <option value="2">Tutor Académico</option>
-                            <option value="3">Funcionario</option>
+                            <option value="1" {{ old("roles_area.{$area['id']}") == '1' ? 'selected' : '' }}>Docente / Profesor</option>
+                            <option value="2" {{ old("roles_area.{$area['id']}") == '2' ? 'selected' : '' }}>Tutor Académico</option>
+                            <option value="3" {{ old("roles_area.{$area['id']}") == '3' ? 'selected' : '' }}>Funcionario</option>
                         </select>
                     </p>
                 @endforeach
