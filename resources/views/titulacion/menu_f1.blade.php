@@ -83,7 +83,7 @@
                 <div class="lg:col-span-5 flex flex-col gap-6 items-center lg:items-start">
                     
                     <!-- Botón "Puro Ojito" (Observaciones) -->
-                    <button class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition group flex flex-col items-center justify-center gap-2 w-32 h-32" title="Observaciones para mi formato">
+                    <a href="{{ route('titulacion.observaciones') }}" class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition group flex flex-col items-center justify-center gap-2 w-32 h-32" title="Observaciones para mi formato">
                         <div class="bg-indigo-50 text-indigo-600 rounded-full p-3.5 group-hover:bg-indigo-600 group-hover:text-white transition">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -91,7 +91,7 @@
                             </svg>
                         </div>
                         <span class="text-[11px] font-bold text-gray-500 group-hover:text-indigo-700 text-center leading-tight">Ver<br>Observaciones</span>
-                    </button>
+                    </a>
 
                     <!-- Revisión / Emisión dictamen -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col hover:shadow-md transition w-full">

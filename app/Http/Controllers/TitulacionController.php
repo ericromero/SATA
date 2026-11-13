@@ -46,5 +46,10 @@ class TitulacionController extends Controller
     {
         return view('titulacion.firmas_revision');
     }
+    // NUEVO: Vista de Observaciones
+    public function verObservaciones()
+    {
+        return view('titulacion.observaciones');
+    }
 
 }
