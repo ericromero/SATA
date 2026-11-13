@@ -1,56 +1,76 @@
 <x-layouts.app>
-    <!-- Alpine.js x-data inicializa todas nuestras variables y funciones interactivas -->
+    <!-- Alpine.js x-data inicializa todas nuestras variables y bases de datos simuladas -->
     <div class="py-12 bg-gray-50 min-h-screen" x-data="{
         titulo: '',
         integrantesMaximos: 1,
-        nuevoNombre: '',
-        nuevoCuenta: '',
-        nuevoCorreo: '',
-        nuevoTelefono: '',
+        
+        /* Bases de datos simuladas */
+        alumnosBD: [
+            { nombre: 'BONILLA VAZQUEZ ALEJANDRA', cuenta: '307233530', telefono: '5573013815', correo: 'psico_ale@outlook.com' },
+            { nombre: 'HERNANDEZ GARCIA LIZETH KARINA', cuenta: '308180963', telefono: '5514267732', correo: 'psico.liz.h@gmail.com' },
+            { nombre: 'NUÑEZ BADILLO ARMANDO ADAIR', cuenta: '320191963', telefono: '5512345678', correo: 'armando@comunidad.unam.mx' }
+        ],
+        docentesBD: [
+            { id: 1, nombre: 'DRA. CÁRDENAS LÓPEZ MARÍA GEORGINA', adscripcion: 'PSICOLOGÍA Y SALUD, FAC. DE PSICOLOGÍA, UNAM', correo: 'georgina@unam.mx' },
+            { id: 2, nombre: 'DRA. ROJAS FERNÁNDEZ GILDA TERESA', adscripcion: 'PSICOLOGÍA EDUCATIVA', correo: 'gilda@unam.mx' },
+            { id: 3, nombre: 'DR. JUAN VELÁZQUEZ', adscripcion: 'NEUROCIENCIAS', correo: 'juan.v@unam.mx' }
+        ],
+
+        /* Variables de búsqueda */
+        busquedaAlumno: '',
+        busquedaDirector: '',
+        busquedaRevisor: '',
+        
+        /* Selecciones activas */
         integrantes: [],
-        directorNombre: '',
-        directorAdscripcion: '',
-        revisorNombre: '',
-        revisorAdscripcion: '',
+        directorSeleccionado: null,
+        revisorSeleccionado: null,
+        
         archivoNombre: '',
-        vistaPreviaVisible: false, /* Controla el modal del formato F1 */
+        vistaPreviaVisible: false,
         
-        agregarIntegrante() {
-            if (this.nuevoNombre.trim() === '' || this.nuevoCuenta.trim() === '') {
-                alert('Por favor ingresa al menos el Nombre y el Número de Cuenta.');
-                return;
-            }
-            if (this.integrantes.length >= this.integrantesMaximos) {
-                alert('Has alcanzado el límite máximo de integrantes (' + this.integrantesMaximos + '). Si necesitas más, cambia el límite arriba.');
-                return;
-            }
-            this.integrantes.push({
-                nombre: this.nuevoNombre.toUpperCase(),
-                cuenta: this.nuevoCuenta,
-                telefono: this.nuevoTelefono,
-                correo: this.nuevoCorreo.toLowerCase()
-            });
-            this.nuevoNombre = '';
-            this.nuevoCuenta = '';
-            this.nuevoTelefono = '';
-            this.nuevoCorreo = '';
+        /* Filtros computados en tiempo real */
+        get alumnosSugeridos() {
+            if (this.busquedaAlumno.trim() === '') return [];
+            return this.alumnosBD.filter(a => 
+                a.nombre.toLowerCase().includes(this.busquedaAlumno.toLowerCase()) || 
+                a.cuenta.includes(this.busquedaAlumno)
+            );
         },
-        
+        get directoresSugeridos() {
+            if (this.busquedaDirector.trim() === '') return [];
+            return this.docentesBD.filter(d => d.nombre.toLowerCase().includes(this.busquedaDirector.toLowerCase()));
+        },
+        get revisoresSugeridos() {
+            if (this.busquedaRevisor.trim() === '') return [];
+            return this.docentesBD.filter(d => d.nombre.toLowerCase().includes(this.busquedaRevisor.toLowerCase()));
+        },
+
+        /* Métodos de acción */
+        agregarAlumno(alumno) {
+            if (this.integrantes.length >= this.integrantesMaximos) {
+                alert('Has alcanzado el límite máximo de integrantes (' + this.integrantesMaximos + ').');
+                return;
+            }
+            // Evitar duplicados
+            if (this.integrantes.find(i => i.cuenta === alumno.cuenta)) {
+                alert('Este alumno ya fue agregado.');
+                return;
+            }
+            this.integrantes.push(alumno);
+            this.busquedaAlumno = '';
+        },
         removerIntegrante(index) {
             this.integrantes.splice(index, 1);
         },
-        
         limpiarFormulario() {
             this.titulo = '';
             this.integrantes = [];
-            this.nuevoNombre = '';
-            this.nuevoCuenta = '';
-            this.nuevoTelefono = '';
-            this.nuevoCorreo = '';
-            this.directorNombre = '';
-            this.directorAdscripcion = '';
-            this.revisorNombre = '';
-            this.revisorAdscripcion = '';
+            this.busquedaAlumno = '';
+            this.busquedaDirector = '';
+            this.busquedaRevisor = '';
+            this.directorSeleccionado = null;
+            this.revisorSeleccionado = null;
             this.archivoNombre = '';
             this.$refs.archivoPdf.value = '';
         }
@@ -80,7 +100,7 @@
                         </div>
                     </div>
 
-                    <!-- SECCIÓN: Participantes -->
+                    <!-- SECCIÓN: Participantes (Buscador Automático) -->
                     <div class="p-8 bg-gray-50">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-gray-900">Datos de los Integrantes</h3>
@@ -91,28 +111,29 @@
                             </select>
                         </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
-                            <div class="md:col-span-3">
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">Nombre Completo</label>
-                                <input type="text" x-model="nuevoNombre" placeholder="Ej. Juan Pérez" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <div class="relative w-full mb-6">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Buscar y agregar alumno</label>
+                            <div class="relative">
+                                <input type="text" x-model="busquedaAlumno" placeholder="Escribe el nombre o número de cuenta del alumno..." class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-10 py-2.5 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
                             </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">No. de Cuenta</label>
-                                <input type="text" x-model="nuevoCuenta" placeholder="Ej. 312456789" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">Teléfono</label>
-                                <input type="text" x-model="nuevoTelefono" placeholder="Ej. 5512345678" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-                            <div class="md:col-span-3">
-                                <label class="block text-xs font-semibold text-gray-700 mb-1">Correo Electrónico</label>
-                                <input type="email" x-model="nuevoCorreo" @keydown.enter="agregarIntegrante" placeholder="correo@ejemplo.com" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
-                            <div class="md:col-span-2 flex items-end">
-                                <button @click="agregarIntegrante" type="button" class="w-full bg-[#5641f5] text-white px-4 py-2.5 rounded-md text-sm font-semibold hover:bg-indigo-700 transition shadow-sm">Agregar</button>
+                            
+                            <!-- Dropdown de resultados Alumnos -->
+                            <div x-show="alumnosSugeridos.length > 0" class="absolute z-20 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto sm:text-sm" style="display: none;">
+                                <template x-for="alumno in alumnosSugeridos">
+                                    <div @click="agregarAlumno(alumno)" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-50 transition">
+                                        <div class="flex items-center">
+                                            <span class="font-medium block truncate text-gray-900" x-text="alumno.nombre"></span>
+                                            <span class="ml-2 text-gray-500 text-xs" x-text="'#' + alumno.cuenta"></span>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </div>
 
+                        <!-- Tabla de Integrantes Seleccionados -->
                         <div class="overflow-x-auto border border-gray-200 rounded-lg">
                             <table class="min-w-full divide-y divide-gray-200 bg-white">
                                 <thead class="bg-gray-100">
@@ -137,38 +158,88 @@
                                         </tr>
                                     </template>
                                     <tr x-show="integrantes.length === 0">
-                                        <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-400 italic">No hay integrantes agregados. Usa el formulario de arriba para añadir uno.</td>
+                                        <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-400 italic">No hay integrantes agregados. Usa el buscador de arriba para añadir uno.</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- SECCIÓN: Director y Revisor -->
+                    <!-- SECCIÓN: Director y Revisor (Buscador Automático) -->
                     <div class="p-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            
+                            <!-- Buscador Director -->
                             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                <h3 class="text-md font-bold text-indigo-900 mb-4 border-b border-gray-200 pb-2">Datos del Director(a)</h3>
-                                <div class="mb-3">
-                                    <label class="block text-xs font-semibold text-gray-700 mb-1">NOMBRE:</label>
-                                    <input type="text" x-model="directorNombre" placeholder="Ej. Dra. María López" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <h3 class="text-md font-bold text-indigo-900 mb-4 border-b border-gray-200 pb-2">Designación del Director(a)</h3>
+                                
+                                <!-- Si no hay director seleccionado, muestra el buscador -->
+                                <div x-show="!directorSeleccionado" class="relative">
+                                    <label class="block text-xs font-semibold text-gray-700 mb-1">Buscar Docente:</label>
+                                    <div class="relative">
+                                        <input type="text" x-model="busquedaDirector" placeholder="Nombre del docente..." class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-8 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Dropdown Director -->
+                                    <div x-show="directoresSugeridos.length > 0" class="absolute z-20 mt-1 w-full bg-white shadow-lg max-h-40 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto sm:text-sm" style="display: none;">
+                                        <template x-for="docente in directoresSugeridos">
+                                            <div @click="directorSeleccionado = docente; busquedaDirector = ''" class="cursor-pointer select-none relative py-2 pl-3 pr-3 hover:bg-indigo-50 transition">
+                                                <span class="font-bold block truncate text-gray-900 text-xs" x-text="docente.nombre"></span>
+                                                <span class="block truncate text-gray-500 text-[10px]" x-text="docente.adscripcion"></span>
+                                            </div>
+                                        </template>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-1">ADSCRIPCIÓN:</label>
-                                    <input type="text" x-model="directorAdscripcion" placeholder="Ej. PSICOLOGÍA Y SALUD, FAC. DE PSICOLOGÍA, UNAM" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm uppercase">
+
+                                <!-- Tarjeta de Director Seleccionado -->
+                                <div x-show="directorSeleccionado" style="display: none;" class="bg-white border border-indigo-200 rounded-md p-3 relative shadow-sm">
+                                    <button @click="directorSeleccionado = null" type="button" class="absolute top-2 right-2 text-gray-400 hover:text-red-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                    <p class="text-xs font-bold text-gray-500 mb-1">Director asignado:</p>
+                                    <p class="text-sm font-bold text-gray-900 leading-tight" x-text="directorSeleccionado ? directorSeleccionado.nombre : ''"></p>
+                                    <p class="text-xs text-gray-600 mt-1 truncate" x-text="directorSeleccionado ? directorSeleccionado.adscripcion : ''"></p>
                                 </div>
                             </div>
+
+                            <!-- Buscador Revisor -->
                             <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                <h3 class="text-md font-bold text-indigo-900 mb-4 border-b border-gray-200 pb-2">Datos del Revisor(a)</h3>
-                                <div class="mb-3">
-                                    <label class="block text-xs font-semibold text-gray-700 mb-1">NOMBRE:</label>
-                                    <input type="text" x-model="revisorNombre" placeholder="Ej. Dr. Juan Hernández" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <h3 class="text-md font-bold text-indigo-900 mb-4 border-b border-gray-200 pb-2">Designación del Revisor(a)</h3>
+                                
+                                <div x-show="!revisorSeleccionado" class="relative">
+                                    <label class="block text-xs font-semibold text-gray-700 mb-1">Buscar Docente:</label>
+                                    <div class="relative">
+                                        <input type="text" x-model="busquedaRevisor" placeholder="Nombre del docente..." class="block w-full rounded-md border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-8 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Dropdown Revisor -->
+                                    <div x-show="revisoresSugeridos.length > 0" class="absolute z-20 mt-1 w-full bg-white shadow-lg max-h-40 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto sm:text-sm" style="display: none;">
+                                        <template x-for="docente in revisoresSugeridos">
+                                            <div @click="revisorSeleccionado = docente; busquedaRevisor = ''" class="cursor-pointer select-none relative py-2 pl-3 pr-3 hover:bg-indigo-50 transition">
+                                                <span class="font-bold block truncate text-gray-900 text-xs" x-text="docente.nombre"></span>
+                                                <span class="block truncate text-gray-500 text-[10px]" x-text="docente.adscripcion"></span>
+                                            </div>
+                                        </template>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-1">ADSCRIPCIÓN:</label>
-                                    <input type="text" x-model="revisorAdscripcion" placeholder="Ej. PSICOLOGÍA EDUCATIVA" class="block w-full rounded-md border-gray-300 bg-white text-gray-900 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm uppercase">
+
+                                <!-- Tarjeta de Revisor Seleccionado -->
+                                <div x-show="revisorSeleccionado" style="display: none;" class="bg-white border border-indigo-200 rounded-md p-3 relative shadow-sm">
+                                    <button @click="revisorSeleccionado = null" type="button" class="absolute top-2 right-2 text-gray-400 hover:text-red-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                    <p class="text-xs font-bold text-gray-500 mb-1">Revisor asignado:</p>
+                                    <p class="text-sm font-bold text-gray-900 leading-tight" x-text="revisorSeleccionado ? revisorSeleccionado.nombre : ''"></p>
+                                    <p class="text-xs text-gray-600 mt-1 truncate" x-text="revisorSeleccionado ? revisorSeleccionado.adscripcion : ''"></p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -213,7 +284,6 @@
                     <!-- Encabezado Institucional -->
                     <div class="flex justify-between items-center mb-6">
                         <div class="w-32 flex flex-col items-center">
-                            <!-- Simulación de Escudo UNAM -->
                             <div class="w-20 h-24 border-2 border-gray-300 flex items-center justify-center mb-1">
                                 <span class="text-xs text-gray-400 font-bold">ESCUDO UNAM</span>
                             </div>
@@ -226,7 +296,6 @@
                             <h4 class="text-xs font-bold uppercase mt-3">FORMA DE REGISTRO DE PROYECTO</h4>
                         </div>
                         <div class="w-32 flex flex-col items-center">
-                            <!-- Simulación de Logo Facultad Psicología -->
                             <div class="w-20 h-20 border-2 border-gray-300 flex items-center justify-center mb-1">
                                 <span class="text-xs text-gray-400 font-bold">LOGO PSI</span>
                             </div>
@@ -284,8 +353,8 @@
                     <!-- Director del Proyecto -->
                     <div class="border border-black p-2 mb-2 h-32 relative">
                         <p class="text-xs mb-3">DESIGNACIÓN DEL DIRECTOR O DIRECTORA DEL PROYECTO</p>
-                        <p class="text-xs mb-1"><span class="font-bold">NOMBRE:</span> <span class="uppercase font-normal" x-text="directorNombre || ''"></span></p>
-                        <p class="text-xs mb-1"><span class="font-bold">ADSCRIPCIÓN:</span> <span class="uppercase font-normal" x-text="directorAdscripcion || ''"></span></p>
+                        <p class="text-xs mb-1"><span class="font-bold">NOMBRE:</span> <span class="uppercase font-normal" x-text="directorSeleccionado ? directorSeleccionado.nombre : ''"></span></p>
+                        <p class="text-xs mb-1"><span class="font-bold">ADSCRIPCIÓN:</span> <span class="uppercase font-normal" x-text="directorSeleccionado ? directorSeleccionado.adscripcion : ''"></span></p>
                         
                         <div class="absolute bottom-2 left-6 right-6 flex justify-between items-end">
                             <div class="w-64">
@@ -302,8 +371,8 @@
                     <!-- Revisor del Proyecto -->
                     <div class="border border-black p-2 mb-8 h-32 relative">
                         <p class="text-xs mb-3">DESIGNACIÓN DEL REVISOR O REVISORA DEL PROYECTO</p>
-                        <p class="text-xs mb-1"><span class="font-bold">NOMBRE:</span> <span class="uppercase font-normal" x-text="revisorNombre || ''"></span></p>
-                        <p class="text-xs mb-1"><span class="font-bold">ADSCRIPCIÓN:</span> <span class="uppercase font-normal" x-text="revisorAdscripcion || ''"></span></p>
+                        <p class="text-xs mb-1"><span class="font-bold">NOMBRE:</span> <span class="uppercase font-normal" x-text="revisorSeleccionado ? revisorSeleccionado.nombre : ''"></span></p>
+                        <p class="text-xs mb-1"><span class="font-bold">ADSCRIPCIÓN:</span> <span class="uppercase font-normal" x-text="revisorSeleccionado ? revisorSeleccionado.adscripcion : ''"></span></p>
                         
                         <div class="absolute bottom-2 left-6 right-6 flex justify-between items-end">
                             <div class="w-64">
@@ -330,13 +399,12 @@
                     <!-- Pie de página (Dirección y Código de Barras) -->
                     <div class="text-center mt-auto border-t border-gray-300 pt-4">
                         <p class="text-[9px] text-gray-700 mb-2">Av. Universidad 3004, Col. Copilco - Universidad, C.P. 04510, Del. Coyoacán, México, Cd. Mx.</p>
-                        <!-- Simulación Código de Barras -->
                         <div class="flex justify-center h-8 opacity-60">
                             <svg class="w-48 h-full" preserveAspectRatio="none" viewBox="0 0 100 20" fill="currentColor"><path d="M0 0h2v20H0zM4 0h1v20H4zM7 0h3v20H7zM12 0h1v20h-1zM15 0h4v20h-4zM21 0h2v20h-2zM25 0h1v20h-1zM28 0h3v20h-3zM33 0h1v20h-1zM36 0h4v20h-4zM42 0h2v20h-2zM46 0h1v20h-1zM49 0h3v20h-3zM54 0h1v20h-1zM57 0h4v20h-4zM63 0h2v20h-2zM67 0h1v20h-1zM70 0h3v20h-3zM75 0h1v20h-1zM78 0h4v20h-4zM84 0h2v20h-2zM88 0h1v20h-1zM91 0h3v20h-3zM96 0h1v20h-1zM99 0h1v20h-1z"/></svg>
                         </div>
                     </div>
                     
-                    <!-- Botones del Modal (no imprimibles) -->
+                    <!-- Botones del Modal -->
                     <div class="flex justify-end gap-4 mt-8 print:hidden border-t pt-4">
                         <button @click="vistaPreviaVisible = false" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-bold hover:bg-gray-300 transition">Cerrar Vista Previa</button>
                         <button @click="alert('¡Solicitud enviada al Comité!'); vistaPreviaVisible = false; limpiarFormulario();" class="bg-[#11052b] text-white px-8 py-2 rounded-md text-sm font-bold hover:bg-indigo-900 transition">Confirmar y Enviar Solicitud</button>
@@ -345,7 +413,5 @@
                 </div>
             </div>
         </div>
-        <!-- ================= FIN MODAL VISTA PREVIA ================= -->
-
     </div>
 </x-layouts.app>

@@ -41,4 +41,10 @@ class TitulacionController extends Controller
 {
     return view('titulacion.buscador_docentes');
 }
+// NUEVO: Vista de Firmas y Revisión
+    public function firmasRevision()
+    {
+        return view('titulacion.firmas_revision');
+    }
+
 }
