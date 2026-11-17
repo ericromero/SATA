@@ -1,43 +1,34 @@
-<x-app-layout>
-    <div class="max-w-6xl py-2">
-        <h1 class="text-2xl font-bold text-gray-900 mb-8">Módulo de Buzón y Avisos - SATA</h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Tarjeta 1: Crear Mensaje -->
-            <a href="{{ route('buzon.crear-mensaje') }}" class="block p-8 bg-white border border-gray-200 rounded-xl text-center hover:border-purple-600 hover:shadow-md transition group">
-                <div class="flex justify-center mb-4">
-                    <svg class="w-8 h-8 text-purple-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                </div>
-                <h2 class="text-base font-bold text-gray-900 mb-2">Crear Mensaje</h2>
-                <p class="text-xs text-gray-500 leading-relaxed mb-4">Redacta y envía un nuevo mensaje directo y privado a un alumno.</p>
-                <span class="inline-block px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg group-hover:bg-purple-700 transition">ENTRAR</span>
-            </a>
-
-            <!-- Tarjeta 2: Crear Aviso -->
-            <a href="{{ route('buzon.crear-aviso') }}" class="block p-8 bg-white border border-gray-200 rounded-xl text-center hover:border-purple-600 hover:shadow-md transition group">
-                <div class="flex justify-center mb-4">
-                    <svg class="w-8 h-8 text-purple-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                </div>
-                <h2 class="text-base font-bold text-gray-900 mb-2">Crear Aviso</h2>
-                <p class="text-xs text-gray-500 leading-relaxed mb-4">Publica un anuncio general visible para todo un grupo.</p>
-                <span class="inline-block px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg group-hover:bg-purple-700 transition">ENTRAR</span>
-            </a>
-
-            <!-- Tarjeta 3: Grupos y Alumnos -->
-            <a href="{{ route('buzon.grupos') }}" class="block p-8 bg-white border border-gray-200 rounded-xl text-center hover:border-purple-600 hover:shadow-md transition group">
-                <div class="flex justify-center mb-4">
-                    <svg class="w-8 h-8 text-purple-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
-                <h2 class="text-base font-bold text-gray-900 mb-2">Grupos y Alumnos</h2>
-                <p class="text-xs text-gray-500 leading-relaxed mb-4">Gestiona tus grupos y accede al directorio de alumnos.</p>
-                <span class="inline-block px-4 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg group-hover:bg-purple-700 transition">ENTRAR</span>
-            </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SATA - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex h-screen w-full bg-gray-50 overflow-hidden font-sans antialiased m-0 p-0">
+    <!-- MENÚ LATERAL PRINCIPAL (MORADO) -->
+    <aside class="w-64 bg-[#2a1054] text-white flex flex-col flex-shrink-0 h-full shadow-2xl z-20">
+        <div class="p-6 flex items-center gap-4 border-b border-[#3b1c70]">
+            <div class="w-10 h-10 bg-white rounded flex items-center justify-center text-[#2a1054] font-bold text-xl">Ψ</div>
+            <h1 class="text-sm font-bold leading-tight">Facultad de Psicología</h1>
         </div>
-    </div>
-</x-app-layout>
+        <nav class="flex-1 py-4 space-y-1 overflow-y-auto">
+            <!-- Botón Inicio Activo -->
+            <a href="{{ route('dashboard') }}" class="flex items-center px-6 py-3 text-sm font-medium bg-[#3b1c70] border-l-4 border-red-500 gap-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Inicio
+            </a>
+            <!-- Botón Buzón Inactivo -->
+            <a href="{{ route('buzon.crear-mensaje') }}" class="flex items-center px-6 py-3 text-sm font-medium hover:bg-[#3b1c70] transition gap-3">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                Buzón
+            </a>
+        </nav>
+    </aside>
+    <!-- ÁREA EN BLANCO -->
+    <main class="flex-1 flex flex-col h-full items-center justify-center">
+        <h2 class="text-gray-400 text-xl font-medium">Bienvenido. Selecciona "Buzón" para comenzar.</h2>
+    </main>
+</body>
+</html>

@@ -3,24 +3,24 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuzonController;
 
-// 1. La ruta raíz carga la vista de bienvenida original con Login y Register
+// 1. Ruta raíz: Muestra la pantalla de bienvenida original de Laravel (con Login y Register)
 Route::get('/', function () {
     return view('welcome');
 });
 
-// 2. Grupo protegido para el Dashboard y tu módulo de Buzón
+// 2. Grupo de rutas protegidas: Solo accesibles si el usuario inició sesión
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     
-    // Vista del Dashboard principal
+    // Vista principal del Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Módulo de Buzón y Avisos
+    // Módulo de Buzón y Avisos integrado directamente
     Route::prefix('buzon')->name('buzon.')->group(function () {
         Route::get('/', [BuzonController::class, 'index'])->name('index');
         Route::get('/crear-mensaje', [BuzonController::class, 'crearMensaje'])->name('crear-mensaje');

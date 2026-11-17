@@ -66,4 +66,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Relación con los grupos.
+     * Un usuario (alumno) puede pertenecer a muchos grupos.
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
 }

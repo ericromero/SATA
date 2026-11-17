@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('message_policies', function (Blueprint $table) {
-            $table->id();
+            $table->id('Id_message_policy');
+            $table->dateTime('edit_window_minutes')->nullable();
+            $table->dateTime('delete_window_minutes')->nullable();
+            $table->boolean('Status')->default(true);
+            $table->foreignId('Id_message')->constrained('messages', 'Id_message')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('message_policies');

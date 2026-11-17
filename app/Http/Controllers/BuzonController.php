@@ -11,82 +11,80 @@ class BuzonController extends Controller
 {
     public function index()
     {
-        try {
-            $mensajes = DB::table('messages')->orderByDesc('id')->get();
-            $avisos = DB::table('ads')->orderByDesc('id')->get();
-            $usuarios = DB::table('users')->pluck('name', 'id');
-            $grupos = DB::table('groups')->get()->keyBy('id');
-            $adGroups = Schema::hasTable('ad_group') ? DB::table('ad_group')->get()->groupBy('ad_id') : collect();
-        } catch (\Exception $e) {
-            $mensajes = collect(); $avisos = collect(); $usuarios = collect(); $grupos = collect(); $adGroups = collect();
-        }
+        $mensajes = Schema::hasTable('messages') ? DB::table('messages')->orderByDesc('id')->get() : collect();
+        $avisos = Schema::hasTable('ads') ? DB::table('ads')->orderByDesc('id')->get() : collect();
+        $usuarios = DB::table('users')->pluck('name', 'id');
+        $grupos = DB::table('groups')->get()->keyBy('id');
+        $adGroups = Schema::hasTable('ad_group') ? DB::table('ad_group')->get()->groupBy('ad_id') : collect();
+        
         return view('buzon.index', compact('mensajes', 'avisos', 'usuarios', 'grupos', 'adGroups'));
     }
 
     public function crearMensaje(Request $request)
     {
-        $colsGroupUser = Schema::getColumnListing('group_user');
-        $pivotUserCol = in_array('User_id', $colsGroupUser) ? 'User_id' : 'user_id';
-        $pivotGroupCol = in_array('Id_group', $colsGroupUser) ? 'Id_group' : 'group_id';
-        
-        $colsGroups = Schema::getColumnListing('groups');
-        $groupsIdCol = in_array('Id_group', $colsGroups) ? 'Id_group' : 'id';
-        $groupsNameCol = in_array('nombre', $colsGroups) ? 'nombre' : 'name';
-
-        try {
-            $alumnos = DB::table('users')
-                ->join('group_user', 'users.id', '=', 'group_user.' . $pivotUserCol)
-                ->join('groups', 'groups.' . $groupsIdCol, '=', 'group_user.' . $pivotGroupCol)
-                ->select('users.*', 'groups.' . $groupsIdCol . ' as group_id', 'groups.' . $groupsNameCol . ' as group_name')
-                ->orderBy('users.name')
-                ->get();
-        } catch (\Exception $e) {
-            $alumnos = collect();
-        }
-
-        if ($alumnos->isEmpty()) {
-            try { $alumnos = DB::table('users')->where('id', '!=', Auth::id())->orderBy('name')->get(); } 
-            catch (\Exception $e) { $alumnos = collect(); }
-        }
-
-        try { $grupos = DB::table('groups')->get()->keyBy($groupsIdCol); } 
-        catch (\Exception $e) { $grupos = collect(); }
-        
+        $alumnos = DB::table('users')->where('id', '!=', Auth::id())->orderBy('name')->get();
         $alumnoSeleccionado = $request->query('user_id');
+        $mensajesChat = collect();
+        $alumnoActual = null;
 
-        return view('buzon.crear-mensaje', compact('alumnos', 'grupos', 'alumnoSeleccionado'));
+        if ($alumnoSeleccionado) {
+            $alumnoActual = DB::table('users')->where('id', $alumnoSeleccionado)->first();
+            
+            $userCol = Schema::hasColumn('messages', 'User_id') ? 'User_id' : 'user_id';
+            $senderCol = Schema::hasColumn('messages', 'Sender_id') ? 'Sender_id' : 'sender_id';
+            $receiverCol = Schema::hasColumn('messages', 'Receiver_id') ? 'Receiver_id' : 'receiver_id';
+
+            if (!Schema::hasColumn('messages', $senderCol)) $senderCol = $userCol;
+            if (!Schema::hasColumn('messages', $receiverCol)) $receiverCol = $userCol;
+
+            $mensajesChat = DB::table('messages')
+                ->where(function($query) use ($alumnoSeleccionado, $userCol, $senderCol, $receiverCol) {
+                    $query->where($userCol, $alumnoSeleccionado)
+                          ->orWhere($senderCol, $alumnoSeleccionado)
+                          ->orWhere($receiverCol, $alumnoSeleccionado);
+                })
+                ->orderBy('created_at', 'asc')
+                ->get();
+        }
+
+        return view('buzon.crear-mensaje', compact('alumnos', 'alumnoSeleccionado', 'mensajesChat', 'alumnoActual'));
     }
 
     public function guardarMensaje(Request $request)
     {
         $request->validate(['user_id' => 'required', 'asunto' => 'required', 'contenido' => 'required']);
-        $cols = Schema::getColumnListing('messages');
         
         $data = ['created_at' => now(), 'updated_at' => now()];
-        if (in_array('user_id', $cols)) $data['user_id'] = $request->user_id;
-        if (in_array('sender_id', $cols)) $data['sender_id'] = Auth::id();
-        if (in_array('subject', $cols)) $data['subject'] = $request->asunto;
-        if (in_array('title', $cols)) $data['title'] = $request->asunto;
-        if (in_array('body', $cols)) $data['body'] = $request->contenido;
-        if (in_array('content', $cols)) $data['content'] = $request->contenido;
+        
+        if (Schema::hasColumn('messages', 'user_id')) $data['user_id'] = $request->user_id;
+        if (Schema::hasColumn('messages', 'User_id')) $data['User_id'] = $request->user_id;
+        
+        if (Schema::hasColumn('messages', 'sender_id')) $data['sender_id'] = Auth::id();
+        if (Schema::hasColumn('messages', 'Sender_id')) $data['Sender_id'] = Auth::id();
+        
+        if (Schema::hasColumn('messages', 'receiver_id')) $data['receiver_id'] = $request->user_id;
+        if (Schema::hasColumn('messages', 'Receiver_id')) $data['Receiver_id'] = $request->user_id;
+        
+        if (Schema::hasColumn('messages', 'subject')) $data['subject'] = $request->asunto;
+        if (Schema::hasColumn('messages', 'title')) $data['title'] = $request->asunto;
+        
+        if (Schema::hasColumn('messages', 'body')) $data['body'] = $request->contenido;
+        if (Schema::hasColumn('messages', 'content')) $data['content'] = $request->contenido;
 
         DB::table('messages')->insert($data);
-        return redirect()->route('buzon.index')->with('success', 'Mensaje enviado.');
+        
+        return redirect()->route('buzon.crear-mensaje', ['user_id' => $request->user_id])->with('success', 'Mensaje enviado.');
     }
 
     public function crearAviso()
     {
-        $colsGroupUser = Schema::getColumnListing('group_user');
-        $pivotGroupCol = in_array('Id_group', $colsGroupUser) ? 'Id_group' : 'group_id';
+        $grupos = DB::table('groups')->get();
+        $colPivot = Schema::hasColumn('group_user', 'Id_group') ? 'Id_group' : 'group_id';
         
-        try {
-            $grupos = DB::table('groups')->get()->map(function ($grupo) use ($pivotGroupCol) {
-                $id = $grupo->id ?? $grupo->Id_group ?? 1;
-                $grupo->alumnos_count = DB::table('group_user')->where($pivotGroupCol, $id)->count();
-                $grupo->display_name = $grupo->name ?? $grupo->nombre ?? ('Grupo #' . $id);
-                return $grupo;
-            });
-        } catch (\Exception $e) { $grupos = collect(); }
+        foreach ($grupos as $grupo) {
+            $grupo->display_name = $grupo->name ?? $grupo->nombre ?? 'Grupo #' . $grupo->id;
+            $grupo->alumnos_count = DB::table('group_user')->where($colPivot, $grupo->id)->count();
+        }
 
         return view('buzon.crear-aviso', compact('grupos'));
     }
@@ -94,68 +92,57 @@ class BuzonController extends Controller
     public function guardarAviso(Request $request)
     {
         $request->validate(['titulo' => 'required', 'grupos_destino' => 'required|array', 'mensaje' => 'required']);
-        $colsAds = Schema::getColumnListing('ads');
         
         $adData = ['created_at' => now(), 'updated_at' => now()];
-        if (in_array('title', $colsAds)) $adData['title'] = $request->titulo;
-        if (in_array('titulo', $colsAds)) $adData['titulo'] = $request->titulo;
-        if (in_array('content', $colsAds)) $adData['content'] = $request->mensaje;
-        if (in_array('body', $colsAds)) $adData['body'] = $request->mensaje;
+        if (Schema::hasColumn('ads', 'title')) $adData['title'] = $request->titulo;
+        if (Schema::hasColumn('ads', 'titulo')) $adData['titulo'] = $request->titulo;
+        if (Schema::hasColumn('ads', 'content')) $adData['content'] = $request->mensaje;
+        if (Schema::hasColumn('ads', 'body')) $adData['body'] = $request->mensaje;
 
         $adId = DB::table('ads')->insertGetId($adData);
-        $colsPivot = Schema::getColumnListing('ad_group');
+        
+        $colAdId = Schema::hasColumn('ad_group', 'Ad_id') ? 'Ad_id' : 'ad_id';
+        $colGroupId = Schema::hasColumn('ad_group', 'Id_group') ? 'Id_group' : 'group_id';
 
         foreach ($request->grupos_destino as $groupId) {
-            $pivot = [];
-            if (in_array('ad_id', $colsPivot)) $pivot['ad_id'] = $adId;
-            if (in_array('group_id', $colsPivot)) $pivot['group_id'] = $groupId;
-            if (in_array('Id_group', $colsPivot)) $pivot['Id_group'] = $groupId;
-            DB::table('ad_group')->insert($pivot);
+            DB::table('ad_group')->insert([
+                $colAdId => $adId,
+                $colGroupId => $groupId,
+            ]);
         }
         return redirect()->route('buzon.index')->with('success', 'Aviso publicado.');
     }
 
     public function grupos()
     {
-        $colsGroupUser = Schema::getColumnListing('group_user');
-        $pivotGroupCol = in_array('Id_group', $colsGroupUser) ? 'Id_group' : 'group_id';
+        $grupos = DB::table('groups')->get();
+        $colPivotGroup = Schema::hasColumn('group_user', 'Id_group') ? 'Id_group' : 'group_id';
 
-        try {
-            $grupos = DB::table('groups')->get()->map(function ($grupo) use ($pivotGroupCol) {
-                $id = $grupo->id ?? $grupo->Id_group ?? 1;
-                $grupo->alumnos_count = DB::table('group_user')->where($pivotGroupCol, $id)->count();
-                $grupo->display_name = $grupo->name ?? $grupo->nombre ?? ('Grupo #' . $id);
-                return $grupo;
-            });
-        } catch (\Exception $e) { $grupos = collect(); }
+        foreach ($grupos as $grupo) {
+            $grupo->display_name = $grupo->name ?? $grupo->nombre ?? 'Grupo #' . $grupo->id;
+            $grupo->alumnos_count = DB::table('group_user')->where($colPivotGroup, $grupo->id)->count();
+        }
 
         return view('buzon.grupos', compact('grupos'));
     }
 
     public function alumnosPorGrupo($grupoId)
     {
-        $colsGroupUser = Schema::getColumnListing('group_user');
-        $pivotUserCol = in_array('User_id', $colsGroupUser) ? 'User_id' : 'user_id';
-        $pivotGroupCol = in_array('Id_group', $colsGroupUser) ? 'Id_group' : 'group_id';
-        
-        $colsGroups = Schema::getColumnListing('groups');
-        $groupsIdCol = in_array('Id_group', $colsGroups) ? 'Id_group' : 'id';
+        $colGroupUser_User = Schema::hasColumn('group_user', 'User_id') ? 'User_id' : 'user_id';
+        $colGroupUser_Group = Schema::hasColumn('group_user', 'Id_group') ? 'Id_group' : 'group_id';
+        $colGroups_Id = Schema::hasColumn('groups', 'Id_group') ? 'Id_group' : 'id';
 
-        try {
-            $grupo = DB::table('groups')->where($groupsIdCol, $grupoId)->first();
-            abort_if(!$grupo, 404);
-            $grupo->display_name = $grupo->name ?? $grupo->nombre ?? ('Grupo #' . $grupoId);
+        $grupo = DB::table('groups')->where($colGroups_Id, $grupoId)->first();
+        abort_if(!$grupo, 404);
 
-            $alumnos = DB::table('users')
-                ->join('group_user', 'users.id', '=', 'group_user.' . $pivotUserCol)
-                ->where('group_user.' . $pivotGroupCol, $grupoId)
-                ->select('users.*')
-                ->orderBy('users.name')
-                ->get();
-        } catch (\Exception $e) {
-            $grupo = (object) ['id' => $grupoId, 'display_name' => 'Error'];
-            $alumnos = collect();
-        }
+        $grupo->display_name = $grupo->name ?? $grupo->nombre ?? ('Grupo #' . $grupoId);
+
+        $alumnos = DB::table('users')
+            ->join('group_user', 'users.id', '=', 'group_user.' . $colGroupUser_User)
+            ->where('group_user.' . $colGroupUser_Group, $grupoId)
+            ->select('users.*')
+            ->orderBy('users.name')
+            ->get();
 
         return view('buzon.alumnos', compact('grupo', 'alumnos'));
     }
