@@ -53,7 +53,7 @@ class AcademicEventController extends Controller
             ? 'Borrador guardado exitosamente en la sección de gestión de eventos.' 
             : 'El evento académico fue registrado exitosamente y enviado a revisión.';
 
-        return redirect()->route('academic-events.index')->with('success', $message);
+        return redirect()->route('eventos-academicos.index')->with('success', $message);
     }
 
     public function cancelView()

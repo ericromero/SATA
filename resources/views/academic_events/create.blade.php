@@ -15,7 +15,7 @@
                     </button>
                 </div>
                 
-               <a href="{{ route('academic-events.manage') }}" 
+               <a href="{{ route('eventos-academicos.gestion') }}" 
                     class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Gestión de Eventos
                 </a>
@@ -48,7 +48,7 @@
             @endif
 
             <!-- Formulario Principal -->
-            <form action="{{ route('academic-events.store') }}" method="POST" id="event-form" class="space-y-6">
+            <form action="{{ route('eventos-academicos.store') }}" method="POST" id="event-form" class="space-y-6">
                 @csrf
                 <input type="hidden" name="action" id="form-action" value="submit">
 

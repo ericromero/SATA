@@ -8,7 +8,7 @@
                     <h1 class="text-2xl font-bold text-gray-900">Eventos con participantes inscritos</h1>
                     <p class="text-sm text-gray-500">Consulta la cantidad de alumnos inscritos y el pase de lista a cada uno de ellos</p>
                 </div>
-                <a href="{{ route('academic-events.index') }}" 
+                <a href="{{ route('eventos-academicos.index') }}" 
                    class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Eventos Académicos
                 </a>
@@ -32,7 +32,7 @@
                             <p><strong>INSCRITOS:</strong> 25 alumnos</p>
                         </div>
                     </div>
-                    <a href="{{ route('academic-events.enrolled-list', 1) }}" 
+                    <a href="{{ route('eventos-academicos.inscritos-lista', 1) }}" 
                        class="w-full text-center py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition shadow-sm">
                         Ver inscritos
                     </a>
@@ -53,7 +53,7 @@
                             <p><strong>INSCRITOS:</strong> 30 alumnos</p>
                         </div>
                     </div>
-                    <a href="{{ route('academic-events.enrolled-list', 2) }}" 
+                    <a href="{{ route('eventos-academicos.inscritos-lista', 2) }}" 
                        class="w-full text-center py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition shadow-sm">
                         Ver inscritos
                     </a>
@@ -74,7 +74,7 @@
                             <p><strong>INSCRITOS:</strong> 18 alumnos</p>
                         </div>
                     </div>
-                    <a href="{{ route('academic-events.enrolled-list', 3) }}" 
+                    <a href="{{ route('eventos-academicos.inscritos-lista', 3) }}" 
                        class="w-full text-center py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition shadow-sm">
                         Ver inscritos
                     </a>

@@ -17,7 +17,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <!-- 1. Registrar Evento (Redirige a la Gestión de borradores) -->
-                <a href="{{ route('academic-events.manage') }}" 
+                <a href="{{ route('eventos-academicos.gestion') }}" 
                 class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
                 </a>
                 
                 <!-- 2. Cancelar Evento -->
-                <a href="{{ route('academic-events.cancel') }}"
+                <a href="{{ route('eventos-academicos.cancelar') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +42,7 @@
                 </a>
 
                 <!-- 3. Reprogramar Evento -->
-                <a href="{{ route('academic-events.reprogram') }}" 
+                <a href="{{ route('eventos-academicos.reprogramar') }}" 
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@
                 </a>
 
                 <!-- 4. Lista de Inscritos -->
-                <a href="{{ route('academic-events.enrolled') }}"
+                <a href="{{ route('eventos-academicos.inscritos') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@
                 </a>
 
                 <!-- 5. Asignar calificaciones -->
-                <a href="{{ route('academic-events.grades') }}"
+                <a href="{{ route('eventos-academicos.calificaciones') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@
                 </a>
 
                 <!-- 6. Descargar Constancias -->
-                <a href="{{ route('academic-events.certificates') }}"
+                <a href="{{ route('eventos-academicos.constancias') }}"
                    class="group bg-white border border-gray-200 rounded-xl p-8 text-center flex flex-col items-center hover:border-indigo-500 hover:shadow-sm transition duration-150">
                     <div class="text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

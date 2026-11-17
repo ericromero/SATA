@@ -4,7 +4,7 @@
             
             <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
                 <h1 class="text-2xl font-bold text-gray-900">Solicitud de reprogramación del evento</h1>
-                <a href="{{ route('academic-events.reprogram') }}" class="text-sm text-gray-500 hover:text-gray-800 transition">
+                <a href="{{ route('eventos-academicos.reprogramar') }}" class="text-sm text-gray-500 hover:text-gray-800 transition">
                     ← Volver
                 </a>
             </div>
@@ -93,7 +93,7 @@
 
                 <!-- BOTONES -->
                 <div class="flex items-center justify-end gap-3 pt-4">
-                    <a href="{{ route('academic-events.reprogram') }}" 
+                    <a href="{{ route('eventos-academicos.reprogramar') }}" 
                        class="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium text-sm rounded-lg transition">
                         Cancelar
                     </a>
@@ -113,7 +113,7 @@
             <p class="text-xs text-gray-600 mb-6">
                 El sistema ha realizado exitosamente la petición para reprogramar el evento. La solicitud pasa a estar en estado de revisión.
             </p>
-            <a href="{{ route('academic-events.reprogram') }}" 
+            <a href="{{ route('eventos-academicos.reprogramar') }}" 
                class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition inline-block">
                 Ok
             </a>

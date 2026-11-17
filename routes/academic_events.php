@@ -5,38 +5,31 @@ use App\Http\Controllers\AcademicEventController;
 
 /*
 |--------------------------------------------------------------------------
-| Rutas del Módulo de Eventos Académicos
+| Rutas del Módulo de Eventos Académicos (Homologadas en Español)
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-
-   
-// Rutas específicas (van ANTES del resource)
-
-    Route::get('academic-events/cancel', [AcademicEventController::class, 'cancelView'])->name('academic-events.cancel'); 
-    Route::get('academic-events/manage', [AcademicEventController::class, 'manageView'])->name('academic-events.manage');
-  
-
+Route::middleware(['auth', config('jetstream.auth_session')])->group(function () {
+    
+    // Rutas específicas / fijas (van SIEMPRE antes del resource)
+    Route::get('eventos-academicos/gestion', [AcademicEventController::class, 'manageView'])->name('eventos-academicos.gestion');
+    Route::get('eventos-academicos/cancelar', [AcademicEventController::class, 'cancelView'])->name('eventos-academicos.cancelar');
+    
     // Rutas de Reprogramación
-    Route::get('academic-events/reprogram', [AcademicEventController::class, 'reprogramIndex'])->name('academic-events.reprogram');
-    Route::get('academic-events/{academic_event}/reprogram', [AcademicEventController::class, 'reprogramForm'])->name('academic-events.reprogram-form');
+    Route::get('eventos-academicos/reprogramar', [AcademicEventController::class, 'reprogramIndex'])->name('eventos-academicos.reprogramar');
+    Route::get('eventos-academicos/{evento}/reprogramar', [AcademicEventController::class, 'reprogramForm'])->name('eventos-academicos.reprogramar-form');
 
-   
     // Módulo Lista de Inscritos
-    Route::get('academic-events/enrolled', [AcademicEventController::class, 'enrolledEvents'])->name('academic-events.enrolled');
-    Route::get('academic-events/{academic_event}/enrolled', [AcademicEventController::class, 'enrolledList'])->name('academic-events.enrolled-list');
-
+    Route::get('eventos-academicos/inscritos', [AcademicEventController::class, 'enrolledEvents'])->name('eventos-academicos.inscritos');
+    Route::get('eventos-academicos/{evento}/inscritos', [AcademicEventController::class, 'enrolledList'])->name('eventos-academicos.inscritos-lista');
 
     // Módulo Asignación de Calificaciones
-    Route::get('academic-events/grades', [AcademicEventController::class, 'gradesIndex'])->name('academic-events.grades');
-    Route::get('academic-events/{academic_event}/grades', [AcademicEventController::class, 'gradesForm'])->name('academic-events.grades-form');
+    Route::get('eventos-academicos/calificaciones', [AcademicEventController::class, 'gradesIndex'])->name('eventos-academicos.calificaciones');
+    Route::get('eventos-academicos/{evento}/calificaciones', [AcademicEventController::class, 'gradesForm'])->name('eventos-academicos.calificaciones-form');
 
-    
     // Módulo Descarga de Constancias
-    Route::get('academic-events/certificates', [AcademicEventController::class, 'certificatesIndex'])->name('academic-events.certificates');
+    Route::get('eventos-academicos/constancias', [AcademicEventController::class, 'certificatesIndex'])->name('eventos-academicos.constancias');
 
-
-    
-    Route::resource('academic-events', AcademicEventController::class);
+    // Recurso principal en español (genera index, create, store, edit, update, destroy, show)
+    Route::resource('eventos-academicos', AcademicEventController::class);
 });

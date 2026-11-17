@@ -8,7 +8,7 @@
                     <h1 class="text-2xl font-bold text-gray-900">Evaluación de Participantes</h1>
                     <p class="text-sm text-gray-500">Registra la evaluación final para cada alumno inscrito en el evento.</p>
                 </div>
-                <a href="{{ route('academic-events.grades') }}" 
+                <a href="{{ route('eventos-academicos.calificaciones') }}" 
                    class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Lista de Eventos
                 </a>

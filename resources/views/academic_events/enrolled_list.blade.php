@@ -8,7 +8,7 @@
                     <h1 class="text-2xl font-bold text-gray-900">Lista de inscritos</h1>
                     <p class="text-sm text-gray-500">Consulta los participantes inscritos en este evento</p>
                 </div>
-                <a href="{{ route('academic-events.enrolled') }}" 
+                <a href="{{ route('eventos-academicos.inscritos') }}" 
                    class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Lista de Eventos
                 </a>

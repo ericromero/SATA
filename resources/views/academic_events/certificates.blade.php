@@ -16,7 +16,7 @@
                     </div>
                     <p class="text-sm text-gray-500">Consulta y descarga tus constancias de participación como docente en los eventos realizados</p>
                 </div>
-                <a href="{{ route('academic-events.index') }}" 
+                <a href="{{ route('eventos-academicos.index') }}" 
                    class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Eventos Académicos
                 </a>

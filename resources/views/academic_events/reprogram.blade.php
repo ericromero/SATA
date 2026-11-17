@@ -8,7 +8,7 @@
                     <h1 class="text-2xl font-bold text-gray-900">Reprogramar evento</h1>
                     <p class="text-sm text-gray-500">Gestión de solicitudes de reprogramación de eventos</p>
                 </div>
-                <a href="{{ route('academic-events.index') }}" 
+                <a href="{{ route('eventos-academicos.index') }}" 
                    class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Eventos Académicos
                 </a>
@@ -47,7 +47,7 @@
                             <p><strong>CUPOS:</strong> 30 personas</p>
                         </div>
                     </div>
-                    <a href="{{ route('academic-events.reprogram-form', 1) }}" 
+                    <a href="{{ route('eventos-academicos.reprogramar-form', 1) }}" 
                        class="w-full text-center py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg transition shadow-sm">
                         Reprogramar evento
                     </a>

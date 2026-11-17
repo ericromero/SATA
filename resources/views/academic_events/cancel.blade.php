@@ -8,7 +8,7 @@
                     <h1 class="text-2xl font-bold text-gray-900">Cancelar evento</h1>
                     <p class="text-sm text-gray-500">Gestión de anulación y solicitudes de cancelación de eventos</p>
                 </div>
-                <a href="{{ route('academic-events.index') }}" 
+                <a href="{{ route('eventos-academicos.index') }}" 
                    class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">
                     ← Volver a Eventos Académicos
                 </a>
