@@ -8,9 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('dashboard', function () {
+    return redirect('/usuarios');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -19,7 +19,6 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
-
 
 Route::get('/usuarios', function () {
     return view('usuarios.index');
@@ -33,7 +32,6 @@ Route::post('/usuarios/alta-alumnos', [UserController::class, 'storeAlumno']);
 
 // Ruta para mostrar la tabla de alumnos
 Route::get('/usuarios/consultar-alumnos', [UserController::class, 'indexAlumnos']);
-
 
 Route::get('/usuarios/alta-docentes', function () {
     return view('usuarios.alta-docentes');

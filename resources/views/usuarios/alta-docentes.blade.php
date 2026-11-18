@@ -2,14 +2,14 @@
     <x-slot name="header">
         <h2>Alta de Docentes y Funcionarios</h2>
     </x-slot>
-
+   
     <div style="padding: 20px;">
         
         <!-- Alerta de Errores de Validación -->
         @if($errors->any())
         <div style="background-color: #fee2e2; border: 1px solid #f87171; color: #991b1b; padding: 15px; margin-bottom: 20px;">
             <ul style="margin: 0; padding-left: 20px;">
-                @foreach($errors->all() as$error)
+                @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
@@ -66,7 +66,7 @@
                     ];
                 @endphp
 
-                @foreach($areasSua as$area)
+                @foreach($areasSua as $area)
                     <p>
                         <input type="checkbox" name="areas[]" value="{{ $area['id'] }}" {{ is_array(old('areas')) && in_array($area['id'], old('areas')) ? 'checked' : '' }}>
                         <label>{{ $area['name'] }}</label>
@@ -94,7 +94,7 @@
                     ];
                 @endphp
 
-                @foreach($areasEscolarizado as$area)
+                @foreach($areasEscolarizado as $area)
                     <p>
                         <input type="checkbox" name="areas[]" value="{{ $area['id'] }}" {{ is_array(old('areas')) && in_array($area['id'], old('areas')) ? 'checked' : '' }}>
                         <label>{{ $area['name'] }}</label>

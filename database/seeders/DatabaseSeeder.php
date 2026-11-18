@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -57,5 +59,16 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+
+        // 3. Usuario Administrador
+        User::updateOrCreate(
+            ['email' => 'admin@sata.unam.mx'],
+            [
+                'name' => 'Administrador SATA',
+                'password' => Hash::make('admin1234'),
+                'CURP' => 'ADMI000101HDFRMAA1',
+                'status' => true,
+            ]
+        );
     }
 }
