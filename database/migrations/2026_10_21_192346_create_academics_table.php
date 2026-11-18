@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('cancelaciones_semestre')->default(0);
             $table->string('RFC', 13)->unique();
             $table->timestamps();
+            $table->softDeletes();
 
             // Definición de las restricciones de llaves foráneas
             $table->foreign('user_id')->references('User_id')->on('user')->onDelete('cascade');

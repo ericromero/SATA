@@ -10,7 +10,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
+{   
     Schema::create('user', function (Blueprint $table) {
         $table->id('User_id'); 
         $table->string('name', 255);
@@ -19,6 +19,7 @@ return new class extends Migration
         $table->string('CURP', 18)->unique();
         $table->boolean('status')->default(true);
         $table->timestamps();
+        $table->softDeletes();
     });
 
     

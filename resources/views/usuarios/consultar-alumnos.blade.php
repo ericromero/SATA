@@ -1,71 +1,79 @@
 <x-layouts.app>
-    <!-- Barra Superior: Botón Alta, Buscador, Filtros y Solicitar Alta -->
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+    <x-slot name="header">
+        <h2>Consultar Alumnos</h2>
+    </x-slot>
+
+    <div style="padding: 20px;">
         
-        <!-- Botón Verde Alta Alumnos -->
-        <a href="/usuarios/alta-alumnos" class="bg-[#4ade80] hover:bg-[#22c55e] text-gray-900 font-bold px-6 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
-            Alta Alumnos
-        </a>
+        <!-- Mensaje de éxito al actualizar o eliminar -->
+        @if(session('success'))
+            <div style="background-color: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 10px; margin-bottom: 15px; font-size: 14px;">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <!-- Input de Búsqueda Central -->
-        <div class="flex-1 max-w-md">
-            <input type="text" placeholder="Ingrese algún dato" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
-        </div>
+        <!-- Barra Superior: Botón Alta, Buscador, Filtros y Solicitar Alta -->
+        <div style="margin-bottom: 20px;">
+            <a href="/usuarios/alta-alumnos" style="text-decoration: none; color: black; border: 1px solid #ccc; padding: 5px 10px; background-color: #f9f9f9; font-size: 14px; margin-right: 5px;">
+                Alta Alumnos
+            </a>
 
-        <!-- Botones de la derecha (Filtros y Solicitar Alta) -->
-        <div class="flex items-center gap-3">
-            <button class="bg-[#818cf8] hover:bg-[#6366f1] text-white font-medium px-5 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+            <input type="text" placeholder="Ingrese algún dato" style="border: 1px solid #ccc; padding: 5px; width: 250px; font-size: 14px; margin-right: 5px;">
+
+            <button style="border: 1px solid #ccc; padding: 5px 10px; background-color: #f9f9f9; font-size: 14px; margin-right: 5px; cursor: pointer;">
                 Filtros
             </button>
-            <button class="bg-[#fde047] hover:bg-[#facc15] text-gray-900 font-medium px-5 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+
+            <button style="border: 1px solid #ccc; padding: 5px 10px; background-color: #f9f9f9; font-size: 14px; cursor: pointer;">
                 Solicitar Alta
             </button>
         </div>
-    </div>
 
-    <!-- Contenedor de la Tabla -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="bg-gray-200/60 border-b border-gray-200 text-sm text-gray-900">
-                    <th class="px-6 py-4 font-bold">Apellidos / Nombre(s)</th>
-                    <th class="px-6 py-4 font-bold">Número de Cuenta</th>
-                    <th class="px-6 py-4 font-bold">Correo Electrónico</th>
-                    <th class="px-6 py-4 font-bold text-right pr-8">Modificar</th>
+        <!-- Tabla Clásica de Alumnos -->
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ccc; background-color: white;">
+            <thead style="background-color: #f3f4f6;">
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ccc; text-align: left; font-size: 14px;">Apellidos / Nombre(s)</th>
+                    <th style="padding: 10px; border: 1px solid #ccc; text-align: left; font-size: 14px;">Número de Cuenta</th>
+                    <th style="padding: 10px; border: 1px solid #ccc; text-align: left; font-size: 14px;">Correo Electrónico</th>
+                    <th style="padding: 10px; border: 1px solid #ccc; text-align: center; font-size: 14px; width: 160px;">Modificar</th>
                 </tr>
             </thead>
-            <tbody class="text-sm text-gray-600 divide-y divide-gray-100">
-                
-                @foreach($alumnos as $alumno)
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <!-- Nombre Completo -->
-                    <td class="px-6 py-4 font-medium text-gray-900">{{ $alumno->user->name ?? 'N/A' }}</td>
-                    
-                    <!-- Número de Cuenta -->
-                    <td class="px-6 py-4">{{ $alumno->account_number }}</td>
-                    
-                    <!-- Correo -->
-                    <td class="px-6 py-4">{{ $alumno->user->email ?? 'N/A' }}</td>
-                    
-                    <!-- Botones Editar / Eliminar -->
-                    <td class="px-6 py-4 text-right space-x-2">
-                        <button class="bg-[#6366f1] hover:bg-[#4f46e5] text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition-colors">
-                            Editar
-                        </button>
-                        <button class="bg-[#ef4444] hover:bg-[#dc2626] text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition-colors">
-                            Eliminar
-                        </button>
-                    </td>
-                </tr>
-                @endforeach
+            <tbody>
+                @forelse($alumnos as $alumno)
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ccc; font-size: 14px;">
+                            {{ $alumno->user->name ?? 'N/A' }}
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc; font-size: 14px;">
+                            {{ $alumno->account_number }}
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc; font-size: 14px;">
+                            {{ $alumno->user->email ?? 'N/A' }}
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">
+                            <a href="/usuarios/alumnos/{{ $alumno->user_id }}/editar" style="text-decoration: none; color: black; border: 1px solid #ccc; background-color: #e5e5e5; padding: 3px 8px; font-size: 12px; margin-right: 5px;">
+                                Editar
+                            </a>
 
+                            <form action="/usuarios/alumnos/{{ $alumno->user_id }}" method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de eliminar a este alumno?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="border: 1px solid #ccc; background-color: #e5e5e5; padding: 3px 8px; cursor: pointer; font-size: 12px;">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="padding: 15px; border: 1px solid #ccc; text-align: center; color: #6b7280; font-size: 14px;">
+                            Aún no hay alumnos registrados en el sistema.
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
-        
-        @if($alumnos->isEmpty())
-        <div class="p-8 text-center text-gray-500">
-            Aún no hay alumnos registrados en el sistema.
-        </div>
-        @endif
+
     </div>
 </x-layouts.app>

@@ -41,4 +41,14 @@ Route::post('/usuarios/alta-docentes', [UserController::class, 'storeDocente']);
 
 Route::get('/usuarios/consultar-academicos', [UserController::class, 'consultarAcademicos']);
 
+//Editar y eliminar alumnos
+Route::get('/usuarios/alumnos/{user_id}/editar', [UserController::class, 'editAlumno']);
+Route::put('/usuarios/alumnos/{user_id}', [UserController::class, 'updateAlumno']);
+Route::delete('/usuarios/alumnos/{user_id}', [UserController::class, 'destroyAlumno']);
+
+//Editar y eliminar docentes
+Route::get('/usuarios/docentes/{user_id}/editar', [UserController::class, 'editDocente']);
+Route::put('/usuarios/docentes/{user_id}', [UserController::class, 'updateDocente']);
+Route::delete('/usuarios/docentes/{user_id}', [UserController::class, 'destroyDocente']);
+
 require __DIR__.'/auth.php';

@@ -23,6 +23,7 @@ return new class extends Migration
         $table->boolean('has_language_clearance')->default(false);
         $table->boolean('is_active')->default(true);
         $table->timestamps();
+        $table->softDeletes();
 
         $table->foreign('user_id')->references('User_id')->on('user')->onDelete('cascade');
     });
