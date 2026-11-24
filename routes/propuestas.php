@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/periodos', function () { return view('dashboard'); })->name('periods.index');
     Route::get('/plantilla', function () { return view('dashboard'); })->name('academics.index');
     // Rutas de extraordinarios
-    Route::get('/periodos/ordinarios', function () { return view('dashboard'); })->name('periods.ordinary');
-    Route::get('/periodos/extraordinarios', function () { return view('dashboard'); })->name('periods.extraordinary');
+    Route::get('/periodos/ordinarios', function () { return view('periodos.ordinary'); })->name('periods.ordinary');
+    Route::get('/periodos/extraordinarios', function () { return view('periodos.extraordinary'); })->name('periods.extraordinary');    
     Route::get('/plantilla', function () { return view('dashboard'); })->name('academics.index');
 });
