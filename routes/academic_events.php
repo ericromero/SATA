@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcademicEventController;
-
+use App\Http\Controllers\AcademicEventStudentController;
 /*
 |--------------------------------------------------------------------------
 | Rutas del Módulo de Eventos Académicos (Homologadas en Español)
@@ -29,6 +29,38 @@ Route::middleware(['auth', config('jetstream.auth_session')])->group(function ()
 
     // Módulo Descarga de Constancias
     Route::get('eventos-academicos/constancias', [AcademicEventController::class, 'certificatesIndex'])->name('eventos-academicos.constancias');
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // Módulo Alumnos - Eventos Académicos
+    Route::get('eventos-academicos/alumnos/inicio', [AcademicEventStudentController::class, 'index'])
+        ->name('eventos-academicos.alumnos.inicio');
+
+    Route::get('eventos-academicos/alumnos/mis-eventos', [AcademicEventStudentController::class, 'upcoming'])
+        ->name('eventos-academicos.alumnos.mis-eventos');
+
+    Route::post('eventos-academicos/alumnos/eventos/{id}/inscribirse', [AcademicEventStudentController::class, 'enroll'])
+        ->name('eventos-academicos.alumnos.inscribirse');
+
+    Route::delete('eventos-academicos/alumnos/eventos/{id}/cancelar-asistencia', [AcademicEventStudentController::class, 'cancelAttendance'])
+        ->name('eventos-academicos.alumnos.cancelar-asistencia');    
+
+    Route::get('eventos-academicos/alumnos/historial', [AcademicEventStudentController::class, 'history'])
+        ->name('eventos-academicos.alumnos.historial');
+
+    Route::post('eventos-academicos/alumnos/eventos/{id}/justificar', [AcademicEventStudentController::class, 'justifyAbsence'])
+        ->name('eventos-academicos.alumnos.justificar');    
+    
+    Route::get('eventos-academicos/alumnos/mis-constancias', [AcademicEventStudentController::class, 'certificates'])
+        ->name('eventos-academicos.alumnos.mis-constancias');
+
+    Route::get('eventos-academicos/alumnos/explorar', [AcademicEventStudentController::class, 'explore'])
+    ->name('eventos-academicos.alumnos.explorar');
+
+
 
     // Recurso principal en español (genera index, create, store, edit, update, destroy, show)
     Route::resource('eventos-academicos', AcademicEventController::class);
