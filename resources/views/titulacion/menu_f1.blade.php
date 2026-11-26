@@ -9,15 +9,15 @@
             </div>
 
             <!-- Estructura a 2 Columnas -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
                 
-                <!-- ================= COLUMNA 1 (Izquierda: Procesos Conectados) ================= -->
+                <!-- ================= COLUMNA 1 (Izquierda: 2 Pasos Conectados) ================= -->
                 <div class="lg:col-span-7 relative flex flex-col gap-6 z-10">
                     
-                    <!-- LÍNEA CONECTORA (Pasa exacto por detrás de los iconos) -->
+                    <!-- LÍNEA CONECTORA (Conecta el Paso 1 con el nuevo Paso 2) -->
                     <div class="absolute left-10 top-12 bottom-12 w-1 bg-indigo-200 -z-10 -ml-[2px] hidden sm:block"></div>
 
-                    <!-- 1. Seleccionar modalidad y registrar F1 (AHORA ES EL PASO 1) -->
+                    <!-- 1. Seleccionar modalidad y registrar F1 -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col hover:shadow-md transition">
                         <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 flex-shrink-0 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
@@ -30,41 +30,19 @@
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Incompleto
                             </span>
                             <p class="text-xs text-gray-600 mb-4 flex-1">Selecciona tu modalidad, sube tu documento final y espera el visto bueno.</p>
-                            <!-- Enlace conectado a tu vista -->
                             <a href="{{ route('titulacion.seleccionar_modalidad') }}" class="w-full bg-[#130b2e] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#20134a] transition flex items-center justify-center gap-2">
                                 Vamos <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
                         </div>
                     </div>
 
-                    <!-- 2. Buscador de docentes (AHORA ES EL PASO 2) -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col hover:shadow-md transition">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 flex-shrink-0 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-                                <svg class="w-4 h-4 -ml-2 mt-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-                            </div>
-                            <h3 class="text-base font-bold text-gray-900 leading-tight">2. Buscador de docentes</h3>
-                        </div>
-                        <div class="pl-14 flex flex-col flex-1">
-                            <span class="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full text-[11px] font-bold bg-red-50 text-red-600 w-fit mb-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Incompleto
-                            </span>
-                            <p class="text-xs text-gray-600 mb-4 flex-1">Invita a tus posibles sínodos a tu proyecto.</p>
-                            <!-- Enlace conectado a la vista del buscador -->
-                            <a href="{{ route('titulacion.buscador_docentes') }}" class="w-full bg-[#130b2e] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#20134a] transition flex items-center justify-center gap-2">
-                                Vamos <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 3. Firmas, creación y revisión -->
+                    <!-- 2. Firmas, creación y revisión (Antes Paso 3) -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col hover:shadow-md transition">
                         <div class="flex items-center gap-3 mb-3">
                             <div class="w-10 h-10 flex-shrink-0 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </div>
-                            <h3 class="text-base font-bold text-gray-900 leading-tight">3. Firmas, creación y revisión</h3>
+                            <h3 class="text-base font-bold text-gray-900 leading-tight">2. Firmas, creación y revisión</h3>
                         </div>
                         <div class="pl-14 flex flex-col flex-1">
                             <span class="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full text-[11px] font-bold bg-red-50 text-red-600 w-fit mb-2">
@@ -79,19 +57,32 @@
 
                 </div>
 
-                <!-- ================= COLUMNA 2 (Derecha) ================= -->
-                <div class="lg:col-span-5 flex flex-col gap-6 items-center lg:items-start">
+                <!-- ================= COLUMNA 2 (Derecha: Accesos Rápidos + Dictamen) ================= -->
+                <div class="lg:col-span-5 flex flex-col gap-6 w-full">
                     
-                    <!-- Botón "Puro Ojito" (Observaciones) -->
-                    <a href="{{ route('titulacion.observaciones') }}" class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition group flex flex-col items-center justify-center gap-2 w-32 h-32" title="Observaciones para mi formato">
-                        <div class="bg-indigo-50 text-indigo-600 rounded-full p-3.5 group-hover:bg-indigo-600 group-hover:text-white transition">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                            </svg>
-                        </div>
-                        <span class="text-[11px] font-bold text-gray-500 group-hover:text-indigo-700 text-center leading-tight">Ver<br>Observaciones</span>
-                    </a>
+                    <!-- Grid de 2 Botones Grandes y Notorios -->
+                    <div class="grid grid-cols-2 gap-4 w-full">
+                        
+                        <!-- Botón 1: Buscador de Docentes -->
+                        <a href="{{ route('titulacion.buscador_docentes') }}" class="bg-white border-2 border-indigo-100 rounded-2xl shadow-md hover:shadow-lg hover:border-indigo-600 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col items-center justify-center gap-3 h-40 p-4" title="Buscar y enviar solicitud a sínodos">
+                            <div class="bg-indigo-100 text-indigo-700 rounded-2xl p-4 group-hover:bg-[#130b2e] group-hover:text-white transition-colors flex items-center justify-center">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                            </div>
+                            <span class="text-xs sm:text-sm font-extrabold text-gray-800 group-hover:text-indigo-700 text-center leading-tight">Buscador de<br>Docentes</span>
+                        </a>
+
+                        <!-- Botón 2: Ver Observaciones -->
+                        <a href="{{ route('titulacion.observaciones') }}" class="bg-white border-2 border-indigo-100 rounded-2xl shadow-md hover:shadow-lg hover:border-indigo-600 hover:-translate-y-0.5 transition-all duration-200 group flex flex-col items-center justify-center gap-3 h-40 p-4" title="Observaciones para mi formato">
+                            <div class="bg-indigo-100 text-indigo-700 rounded-2xl p-4 group-hover:bg-[#130b2e] group-hover:text-white transition-colors flex items-center justify-center">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </div>
+                            <span class="text-xs sm:text-sm font-extrabold text-gray-800 group-hover:text-indigo-700 text-center leading-tight">Ver<br>Observaciones</span>
+                        </a>
+
+                    </div>
 
                     <!-- Revisión / Emisión dictamen -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col hover:shadow-md transition w-full">
@@ -107,9 +98,9 @@
                                 <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Incompleto
                             </span>
                             <p class="text-xs text-gray-600 mb-4 flex-1">Revisa el trabajo del alumno y evalúalo.</p>
-                            <button class="w-full bg-[#130b2e] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#20134a] transition flex items-center justify-center gap-2">
+                            <a href="{{ route('titulacion.revision_dictamen') }}" class="w-full bg-[#130b2e] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#20134a] transition flex items-center justify-center gap-2">
                                 Vamos <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                            </button>
+                            </a>
                         </div>
                     </div>
 

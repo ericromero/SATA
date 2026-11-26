@@ -4,10 +4,12 @@
             
             <div class="mb-8 flex justify-between items-start">
                 <div>
-                    <a href="{{ route('titulacion.menu_f1') }}" class="text-sm text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 mb-4">
+                    <button type="button"
+                            onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('dashboard') }}'"
+                            class="inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-700 hover:text-indigo-700 hover:border-indigo-400 px-3.5 py-1.5 rounded-lg text-sm font-semibold shadow-2xs transition mb-4 cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        Volver al Menú F1
-                    </a>
+                        Regresar
+                    </button>
                     <h2 class="text-2xl font-extrabold text-gray-900 italic tracking-tight">Sistema Buscador de Director de Proyecto</h2>
                     <h1 class="text-4xl font-extrabold text-[#11052b] italic tracking-tight mt-1">Elige a tu director de proyecto</h1>
                 </div>

@@ -13,3 +13,7 @@ use App\Http\Controllers\TitulacionController;
   Route::get('/titulacion/buscador-docentes', [TitulacionController::class, 'buscadorDocentes'])->name('titulacion.buscador_docentes');
   Route::get('/titulacion/firmas-revision', [TitulacionController::class, 'firmasRevision'])->name('titulacion.firmas_revision');
   Route::get('/titulacion/observaciones', [TitulacionController::class, 'verObservaciones'])->name('titulacion.observaciones');
+  Route::get('/titulacion/revision-dictamen', [TitulacionController::class, 'revisionDictamen'])->name('titulacion.revision_dictamen');
+  Route::get('/titulacion/menu-f2', [TitulacionController::class, 'menuF2'])->name('titulacion.menu_f2');
+  Route::get('/titulacion/f2/cargar-documento', [TitulacionController::class, 'cargarDocumentoF2'])->name('titulacion.cargar_documento_f2');
+  Route::get('/titulacion/f2/generador', [TitulacionController::class, 'generadorF2'])->name('titulacion.generador_f2');

@@ -51,5 +51,26 @@ class TitulacionController extends Controller
     {
         return view('titulacion.observaciones');
     }
+    // Vista de Revisión y Emisión de Dictamen (Docentes / Comité)
+    public function revisionDictamen()
+    {
+        return view('titulacion.revision_dictamen');
+    }
+    // Vista principal del Menú Carga de F2
+    public function menuF2()
+    {
+        return view('titulacion.menu_f2');
+    }
+
+    // Fase II - Paso 1: Carga de Documento Final y Validación de VoBo
+    public function cargarDocumentoF2()
+    {
+        return view('titulacion.cargar_documento_f2');
+    }
+    // Fase II - Paso 2: Vinculación de Sínodo y Generador de Formato F2
+    public function generadorF2()
+    {
+        return view('titulacion.generador_f2');
+    }
 
 }

@@ -104,11 +104,6 @@
                     <div class="p-8 bg-gray-50">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-bold text-gray-900">Datos de los Integrantes</h3>
-                            <select x-model.number="integrantesMaximos" class="rounded-md border-gray-300 bg-white text-gray-900 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                <option value="1">1 Integrante</option>
-                                <option value="2">2 Integrantes</option>
-                                <option value="3">3 Integrantes</option>
-                            </select>
                         </div>
                         
                         <div class="relative w-full mb-6">

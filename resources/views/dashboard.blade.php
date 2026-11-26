@@ -60,7 +60,10 @@
                         <p class="text-sm text-gray-500 mb-6 flex-1">Carga tu F2 para validar la continuidad oficial de tu proyecto.</p>
                         <div class="w-full flex flex-col gap-2 mt-auto">
                             <button @click="activeModal = 'etapa3'" class="w-full bg-white border border-gray-300 text-gray-700 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 transition">Ver instrucciones</button>
-                            <button class="w-full bg-indigo-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition opacity-50 cursor-not-allowed">Ir a esa etapa</button>
+                        <!-- Botón morado activo enlazado al Menú F2 -->
+                            <a href="{{ route('titulacion.menu_f2') }}" class="w-full bg-[#4f39f6] hover:bg-indigo-700 text-white py-2 px-4 rounded-lg text-xs font-semibold transition text-center shadow-sm">
+                                Ir a esa etapa
+                            </a>
                         </div>
                     </div>
                 </div>
